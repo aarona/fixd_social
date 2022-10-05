@@ -1,24 +1,7 @@
-# README
+# README (FIXD SOCIAL)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The following is the documentation for FIXD Social.
 
-Things you may want to cover:
+## API
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+More to come here...
