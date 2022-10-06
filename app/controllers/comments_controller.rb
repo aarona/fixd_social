@@ -18,7 +18,11 @@ class CommentsController < ApplicationController
   private
 
   def set_comment
-    @comment = Comment.find(params[:id])
+    begin
+      @comment = Comment.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_error(404, "Record not found")
+    end
   end
 
   def comment_params

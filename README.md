@@ -38,6 +38,14 @@ Method: `GET`
 
 URL: `/posts/:id` where `:id` is the `id` of the post you want to view.
 
+If the post doesn't exist a status of 404 will be returned and response will look like this:
+
+```json
+{
+  "errors": ["Record not found"]
+}
+```
+
 ### Comments
 
 **To add a comment:**
@@ -62,3 +70,11 @@ Parameters:
 Method: `DELETE`
 
 URL: `/comments/:id` where `:id` is the `id` of the comment you want to remove.
+
+If the comment doesn't exist a status of 404 will be returned and response will look like this:
+
+```json
+{
+  "errors": ["Record not found"]
+}
+```

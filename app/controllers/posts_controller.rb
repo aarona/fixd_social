@@ -18,7 +18,11 @@ class PostsController < ApplicationController
   private
 
   def set_post
-    @post = Post.find(params[:id])
+    begin
+      @post = Post.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_error(404, "Record not found")
+    end
   end
 
   def post_params

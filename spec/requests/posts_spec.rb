@@ -64,10 +64,34 @@ RSpec.describe "Posts", type: :request do
   end
 
   describe "GET /show" do
+    let(:the_post) { FactoryBot.create(:post) }
+
     it "renders a successful response" do
-      post = FactoryBot.create(:post)
-      get post_url(post), as: :json
+      get post_url(the_post), as: :json
       expect(response).to be_successful
+    end
+
+    xit "returns the post and its related comments" do
+      get post_url(the_post), as: :json
+        data = JSON.parse(response.body)
+
+        expect(response.status).to eq 200
+        expect(data["errors"]).to be nil
+        # puts data
+    end
+
+    context "the post does not exist" do
+      before do
+        the_post.destroy
+      end
+      
+      it "returns a 404 error" do
+        get post_url(the_post), as: :json
+        data = JSON.parse(response.body)
+
+        expect(response.status).to eq 404
+        expect(data["errors"]).to include "Record not found"
+      end
     end
   end
 end

@@ -66,12 +66,32 @@ RSpec.describe "Comments", type: :request do
   end
 
   describe "DELETE /destroy" do
+    let!(:comment) { FactoryBot.create(:comment) }
+
     it "destroys the requested comment" do
-      comment = FactoryBot.create(:comment)
       expect {
         delete comment_url(comment), headers: valid_headers, as: :json
       }.to change(Comment, :count).by(-1)
     end
-  end
 
+    context "the comment does not exist" do
+      before do
+        comment.destroy
+      end
+
+      it "does not destroy anything" do
+        expect {
+          delete comment_url(comment), headers: valid_headers, as: :json
+        }.to change(Comment, :count).by(0)
+      end
+      
+      it "returns a 404 error" do
+        delete comment_url(comment), headers: valid_headers, as: :json
+        data = JSON.parse(response.body)
+
+        expect(response.status).to eq 404
+        expect(data["errors"]).to include "Record not found"
+      end
+    end
+  end
 end
