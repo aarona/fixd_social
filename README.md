@@ -78,3 +78,22 @@ If the comment doesn't exist a status of 404 will be returned and response will 
   "errors": ["Record not found"]
 }
 ```
+
+### Ratings
+
+**To rate a user:**
+
+Method: `POST`
+
+URL: `/ratings`
+
+Parameters:
+```json
+{
+  rating: {
+    rater_id: 1, // id of the user who is rating another
+    user_id: 1, // id of the user being rated
+    rating: 5 // Must be between 1 and 5 (inclusive)
+  }
+}
+```
