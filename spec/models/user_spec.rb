@@ -26,7 +26,10 @@ RSpec.describe User, type: :model do
     let(:user) { FactoryBot.build(:user, email: existing_email) }
 
     it "requires the email addresses to be unique" do
-      puts existing_user.id
+      # Not sure what I need to reload this object since the record
+      # has already been created but it's required to get the valid?
+      # test to pass.
+      existing_user.reload
       expect(user).to_not be_valid
       expect(user.errors.full_messages).to include "Email has already been taken"
     end
