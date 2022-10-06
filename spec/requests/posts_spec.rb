@@ -15,8 +15,8 @@ RSpec.describe "Posts", type: :request do
 
   let(:invalid_attributes) {
     {
-      title: "",
-      body: "",
+      title: nil,
+      body: nil,
       user_id: nil
     }
   }
