@@ -23,26 +23,16 @@ RSpec.describe "Ratings", type: :request do
     }
   }
 
-  # This should return the minimal set of values that should be in the headers
-  # in order to pass any filters (e.g. authentication) defined in
-  # RatingsController, or in your router and rack
-  # middleware. Be sure to keep this updated too.
-  let(:valid_headers) {
-    {}
-  }
-
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Rating" do
         expect {
-          post ratings_url,
-               params: { rating: valid_attributes }, headers: valid_headers, as: :json
+          post ratings_url, params: { rating: valid_attributes }, as: :json
         }.to change(Rating, :count).by(1)
       end
 
       it "renders a JSON response with the new rating" do
-        post ratings_url,
-             params: { rating: valid_attributes }, headers: valid_headers, as: :json
+        post ratings_url, params: { rating: valid_attributes }, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -57,8 +47,7 @@ RSpec.describe "Ratings", type: :request do
       end
 
       it "renders a JSON response with errors for the new rating" do
-        post ratings_url,
-             params: { rating: invalid_attributes }, headers: valid_headers, as: :json
+        post ratings_url, params: { rating: invalid_attributes }, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
       end

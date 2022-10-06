@@ -23,26 +23,16 @@ RSpec.describe "Comments", type: :request do
     }
   }
 
-  # This should return the minimal set of values that should be in the headers
-  # in order to pass any filters (e.g. authentication) defined in
-  # CommentsController, or in your router and rack
-  # middleware. Be sure to keep this updated too.
-  let(:valid_headers) {
-    {}
-  }
-
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Comment" do
         expect {
-          post comments_url,
-               params: { comment: valid_attributes }, headers: valid_headers, as: :json
+          post comments_url, params: { comment: valid_attributes }, as: :json
         }.to change(Comment, :count).by(1)
       end
 
       it "renders a JSON response with the new comment" do
-        post comments_url,
-             params: { comment: valid_attributes }, headers: valid_headers, as: :json
+        post comments_url, params: { comment: valid_attributes }, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -51,14 +41,12 @@ RSpec.describe "Comments", type: :request do
     context "with invalid parameters" do
       it "does not create a new Comment" do
         expect {
-          post comments_url,
-               params: { comment: invalid_attributes }, as: :json
+          post comments_url, params: { comment: invalid_attributes }, as: :json
         }.to change(Comment, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new comment" do
-        post comments_url,
-             params: { comment: invalid_attributes }, headers: valid_headers, as: :json
+        post comments_url, params: { comment: invalid_attributes }, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -70,7 +58,7 @@ RSpec.describe "Comments", type: :request do
 
     it "destroys the requested comment" do
       expect {
-        delete comment_url(comment), headers: valid_headers, as: :json
+        delete comment_url(comment), as: :json
       }.to change(Comment, :count).by(-1)
     end
 
@@ -81,12 +69,12 @@ RSpec.describe "Comments", type: :request do
 
       it "does not destroy anything" do
         expect {
-          delete comment_url(comment), headers: valid_headers, as: :json
+          delete comment_url(comment), as: :json
         }.to change(Comment, :count).by(0)
       end
       
       it "returns a 404 error" do
-        delete comment_url(comment), headers: valid_headers, as: :json
+        delete comment_url(comment), as: :json
         data = JSON.parse(response.body)
 
         expect(response.status).to eq 404

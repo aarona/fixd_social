@@ -21,26 +21,16 @@ RSpec.describe "Posts", type: :request do
     }
   }
 
-  # This should return the minimal set of values that should be in the headers
-  # in order to pass any filters (e.g. authentication) defined in
-  # PostsController, or in your router and rack
-  # middleware. Be sure to keep this updated too.
-  let(:valid_headers) {
-    {}
-  }
-
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Post" do
         expect {
-          post posts_url,
-               params: { post: valid_attributes }, headers: valid_headers, as: :json
+          post posts_url, params: { post: valid_attributes }, as: :json
         }.to change(Post, :count).by(1)
       end
 
       it "renders a JSON response with the new post" do
-        post posts_url,
-             params: { post: valid_attributes }, headers: valid_headers, as: :json
+        post posts_url, params: { post: valid_attributes }, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -49,14 +39,12 @@ RSpec.describe "Posts", type: :request do
     context "with invalid parameters" do
       it "does not create a new Post" do
         expect {
-          post posts_url,
-               params: { post: invalid_attributes }, as: :json
+          post posts_url, params: { post: invalid_attributes }, as: :json
         }.to change(Post, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new post" do
-        post posts_url,
-             params: { post: invalid_attributes }, headers: valid_headers, as: :json
+        post posts_url, params: { post: invalid_attributes }, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -77,7 +65,6 @@ RSpec.describe "Posts", type: :request do
 
         expect(response.status).to eq 200
         expect(data["errors"]).to be nil
-        # puts data
     end
 
     context "the post does not exist" do
