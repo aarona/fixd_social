@@ -33,7 +33,6 @@ RSpec.describe Rating, type: :model do
     it "the rated user's ratings should increase by one" do
       expect {
         rating.save
-        rated_user.ratings.count
       }.to change(rated_user.ratings, :count).by(1)
     end
 
