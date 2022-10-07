@@ -5,7 +5,6 @@ class CreateRating
   def initialize(params)
     @params = params
     @error_messages = []
-    @rating = nil
   end
   
   def save
