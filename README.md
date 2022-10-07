@@ -13,13 +13,23 @@ rspec .
 
 ### Users
 
+**To view a user's feed:**
+
+Method: `GET`, URL: `/users/:id` where `:id` is the `id` of the user with the feed you want to view.
+
+Parameters:
+
+If you pass no parameters to the URL, it will fetch the first five posts for that user. The URL accepts two parameters that you can pass it: `limit` and `offset`. `Limit` is the number of posts you want returned and `offset` is nth record you want to start at. 
+
+For example, if you want to view the third set of `10` posts (which starts at `20`) for a particular user with `id` of `5`, you would query this endpoint:
+
+`/users/5?limit=10&offset=20`
+
 ### Posts
 
 **To create a post:**
 
-Method: `POST`
-
-URL: `/posts`
+Method: `POST`, URL: `/posts`
 
 Parameters:
 ```json
@@ -34,9 +44,7 @@ Parameters:
 
 **To view a post:**
 
-Method: `GET`
-
-URL: `/posts/:id` where `:id` is the `id` of the post you want to view.
+Method: `GET`, URL: `/posts/:id` where `:id` is the `id` of the post you want to view.
 
 If the post doesn't exist a status of 404 will be returned and response will look like this:
 
@@ -50,9 +58,7 @@ If the post doesn't exist a status of 404 will be returned and response will loo
 
 **To add a comment:**
 
-Method: `POST`
-
-URL: `/comments`
+Method: `POST`, URL: `/comments`
 
 Parameters:
 ```json
@@ -67,9 +73,7 @@ Parameters:
 
 **To remove a comment:**
 
-Method: `DELETE`
-
-URL: `/comments/:id` where `:id` is the `id` of the comment you want to remove.
+Method: `DELETE`, URL: `/comments/:id` where `:id` is the `id` of the comment you want to remove.
 
 If the comment doesn't exist a status of 404 will be returned and response will look like this:
 
@@ -83,9 +87,7 @@ If the comment doesn't exist a status of 404 will be returned and response will 
 
 **To rate a user:**
 
-Method: `POST`
-
-URL: `/ratings`
+Method: `POST`, URL: `/ratings`
 
 Parameters:
 ```json
