@@ -1,12 +1,13 @@
 class RatingsController < ApplicationController
   def create
-    @rating = Rating.new(rating_params)
+    service = CreateRating.new(rating_params)
     
-    if @rating.save
-      puts "Create save called"
+    if service.save
+      @rating = service.rating
+
       render json: @rating, status: :created
     else
-      render json: @rating.errors, status: :unprocessable_entity
+      render json: service.error_messages, status: :unprocessable_entity
     end
   end
 
@@ -16,6 +17,6 @@ class RatingsController < ApplicationController
     # If I was implementing authentication, I would pass a token in a header
     # And use that to determine the User's id instead of allowing it to be
     # passed in directly.
-    params.require(:rating).permit(:user_id, :rater_id, :rating).merge({ rated_at: DateTime.now })
+    params.require(:rating).permit(:user_id, :rater_id, :rating)
   end
 end

@@ -2,6 +2,8 @@ class User < ApplicationRecord
   has_many :ratings
   has_many :posts
 
+  default_scope { includes(:ratings) }
+
   validates_presence_of :email, :name, :registered_at
   validates_uniqueness_of :email
 
