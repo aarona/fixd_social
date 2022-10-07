@@ -6,12 +6,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    service = CreatePost.new(post_params)
 
-    if @post.save
+    if service.save
+      @post = service.post
       render json: @post, status: :created, location: @post
     else
-      render json: @post.errors, status: :unprocessable_entity
+      render json: service.error_messages, status: :unprocessable_entity
     end
   end
 
@@ -29,6 +30,6 @@ class PostsController < ApplicationController
     # If I was implementing authentication, I would pass a token in a header
     # And use that to determine the User's id instead of allowing it to be
     # passed in directly.
-    params.require(:post).permit(:title, :body, :user_id).merge({ posted_at: DateTime.now })
+    params.require(:post).permit(:title, :body, :user_id)
   end
 end
