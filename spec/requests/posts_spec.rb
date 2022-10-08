@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Posts", type: :request do
   let(:user) { FactoryBot.create(:user) }
+
   # This should return the minimal set of attributes required to create a valid
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
@@ -33,6 +34,10 @@ RSpec.describe "Posts", type: :request do
         post posts_url, params: { post: valid_attributes }, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
+        data = JSON.parse(response.body)
+
+        expect(data["post"]["title"]).to match "Test Post Title"
+        expect(data["post"]["body"]).to match "Test Post Body"
       end
     end
 
@@ -52,19 +57,25 @@ RSpec.describe "Posts", type: :request do
   end
 
   describe "GET /show" do
-    let(:the_post) { FactoryBot.create(:post) }
+    let!(:poster) { FactoryBot.create(:user) }
+    let!(:the_post) { FactoryBot.create(:post, user: poster) }
+    let!(:commenter) { FactoryBot.create(:user) }
+    let!(:comment) { FactoryBot.create(:comment, post: the_post, user: commenter, message: "Test message") }
 
     it "renders a successful response" do
       get post_url(the_post), as: :json
       expect(response).to be_successful
     end
 
-    xit "returns the post and its related comments" do
+    it "returns the post and its related comments" do
       get post_url(the_post), as: :json
-        data = JSON.parse(response.body)
+      data = JSON.parse(response.body)
 
-        expect(response.status).to eq 200
-        expect(data["errors"]).to be nil
+      expect(response.status).to eq 200
+      expect(data["errors"]).to be nil
+      expect(data["post"]["user_id"]).to eq poster.id
+      expect(data["post"]["comments"][0]["comment"]["message"]).to eq comment.message
+      expect(data["post"]["comments"][0]["user"]["email"]).to eq commenter.email
     end
 
     context "the post does not exist" do

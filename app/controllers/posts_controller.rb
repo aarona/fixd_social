@@ -1,18 +1,16 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show ]
 
-  def show
-    render json: @post
-  end
+  def show; end
 
   def create
     service = CreatePost.new(post_params)
 
     if service.save
       @post = service.post
-      render json: @post, status: :created, location: @post
+      response.status = 201
     else
-      render json: service.error_messages, status: :unprocessable_entity
+      render_error(422, service.error_messages)
     end
   end
 
