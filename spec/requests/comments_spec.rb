@@ -4,8 +4,8 @@ RSpec.describe "Comments", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Comment. As you add validations to Comment, be sure to
   # adjust the attributes here as well.
-  let(:user) { FactoryBot.create(:user) }
-  let(:new_post) { FactoryBot.create(:post) }
+  let(:user) { create(:user) }
+  let(:new_post) { create(:post) }
 
   let(:valid_attributes) {
     {
@@ -54,7 +54,7 @@ RSpec.describe "Comments", type: :request do
   end
 
   describe "DELETE /destroy" do
-    let!(:comment) { FactoryBot.create(:comment) }
+    let!(:comment) { create(:comment) }
 
     it "destroys the requested comment" do
       expect {

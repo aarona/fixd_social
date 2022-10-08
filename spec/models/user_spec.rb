@@ -22,8 +22,8 @@ RSpec.describe User, type: :model do
 
   context "when an existing user with the same email already exists" do
     let(:existing_email) { "existing@example.com" }
-    let!(:existing_user) { FactoryBot.create(:user, email: existing_email) }
-    let(:user) { FactoryBot.build(:user, email: existing_email) }
+    let!(:existing_user) { create(:user, email: existing_email) }
+    let(:user) { build(:user, email: existing_email) }
 
     it "requires the email addresses to be unique" do
       expect(user).to_not be_valid

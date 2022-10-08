@@ -12,11 +12,11 @@ RSpec.describe "Users", type: :request do
   }
 
   describe "GET /show" do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
     before do
       9.times do
-        FactoryBot.create(:post, user: user)
+        create(:post, user: user)
       end
     end
 

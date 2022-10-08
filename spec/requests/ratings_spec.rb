@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Ratings", type: :request do
-  let(:user) { FactoryBot.create(:user) }
-  let(:rater) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
+  let(:rater) { create(:user) }
 
   # This should return the minimal set of attributes required to create a valid
   # Rating. As you add validations to Rating, be sure to

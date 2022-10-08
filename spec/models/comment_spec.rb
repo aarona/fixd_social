@@ -27,16 +27,16 @@ RSpec.describe Comment, type: :model do
 
   context "when a post has multiple comments" do
     let(:commented_at) { DateTime.now }
-    let(:user) { FactoryBot.create(:user) }
-    let(:post) { FactoryBot.create(:post, user: user) }
-    let!(:first_comment) { fc = FactoryBot.create(:comment, post: post) }
-    let!(:second_comment) { FactoryBot.create(:comment, post: post) }
-    let!(:third_comment) { FactoryBot.create(:comment, post: post) }
+    let(:user) { create(:user) }
+    let(:post) { create(:post, user: user) }
+    let!(:first_comment) { fc = create(:comment, post: post) }
+    let!(:second_comment) { create(:comment, post: post) }
+    let!(:third_comment) { create(:comment, post: post) }
 
     context "and a comment has been deleted and new one added" do
       before do
         first_comment.destroy
-        FactoryBot.create(:comment, post: post)
+        create(:comment, post: post)
         post.reload
       end
   

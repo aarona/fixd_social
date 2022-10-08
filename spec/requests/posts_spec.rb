@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Posts", type: :request do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
 
   # This should return the minimal set of attributes required to create a valid
   # Post. As you add validations to Post, be sure to
@@ -57,10 +57,10 @@ RSpec.describe "Posts", type: :request do
   end
 
   describe "GET /show" do
-    let!(:poster) { FactoryBot.create(:user) }
-    let!(:the_post) { FactoryBot.create(:post, user: poster) }
-    let!(:commenter) { FactoryBot.create(:user) }
-    let!(:comment) { FactoryBot.create(:comment, post: the_post, user: commenter, message: "Test message") }
+    let!(:poster) { create(:user) }
+    let!(:the_post) { create(:post, user: poster) }
+    let!(:commenter) { create(:user) }
+    let!(:comment) { create(:comment, post: the_post, user: commenter, message: "Test message") }
 
     it "renders a successful response" do
       get post_url(the_post), as: :json

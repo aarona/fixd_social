@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe CreateRating do
   describe "#save" do
     context "when params are valid" do
-      let(:user_id) { FactoryBot.create(:user).id }
-      let(:rater_id) { FactoryBot.create(:user).id }
+      let(:user_id) { create(:user).id }
+      let(:rater_id) { create(:user).id }
       let(:params) { { user_id: user_id, rater_id: rater_id, rating: 5 } }
       let(:create_rating) { CreateRating.new(params) }
 
@@ -19,7 +19,7 @@ RSpec.describe CreateRating do
     end
 
     context "where no user is supplied" do
-      let(:rater_id) { FactoryBot.create(:user).id }
+      let(:rater_id) { create(:user).id }
       let(:params) { { user_id: nil, rater_id: rater_id, rating: 5 } }
       let(:create_rating) { CreateRating.new(params) }
 
@@ -34,7 +34,7 @@ RSpec.describe CreateRating do
     end
 
     context "when the user is attempting to rate themself" do
-      let(:rater_id) { FactoryBot.create(:user).id }
+      let(:rater_id) { create(:user).id }
       let(:params) { { user_id: rater_id, rater_id: rater_id, rating: 5 } }
       let(:create_rating) { CreateRating.new(params) }
 
@@ -49,8 +49,8 @@ RSpec.describe CreateRating do
     end
 
     context "when the user is attempting rerate another user" do
-      let(:user_id) { FactoryBot.create(:user).id }
-      let(:rater_id) { FactoryBot.create(:user).id }
+      let(:user_id) { create(:user).id }
+      let(:rater_id) { create(:user).id }
       let(:create_rating) { CreateRating.new({ user_id: user_id, rater_id: rater_id, rating: 3 }) }
 
       before do

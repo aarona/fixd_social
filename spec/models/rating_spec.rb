@@ -26,9 +26,9 @@ RSpec.describe Rating, type: :model do
   end
 
   context "when a user has rated another" do
-    let(:rating_user) { FactoryBot.create(:user) }
-    let(:rated_user) { FactoryBot.create(:user) }
-    let(:rating) { FactoryBot.build(:rating, rater: rating_user, user: rated_user )}
+    let(:rating_user) { create(:user) }
+    let(:rated_user) { create(:user) }
+    let(:rating) { build(:rating, rater: rating_user, user: rated_user )}
 
     it "the rated user's ratings should increase by one" do
       expect {
@@ -50,11 +50,11 @@ RSpec.describe Rating, type: :model do
   end
 
   context "when a user is rated a 5 and rated a 3" do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
     before do
-      FactoryBot.create(:rating, user: user, rating: 5)
-      FactoryBot.create(:rating, user: user, rating: 3)
+      create(:rating, user: user, rating: 5)
+      create(:rating, user: user, rating: 3)
     end
 
     it "should have 2 ratings" do
