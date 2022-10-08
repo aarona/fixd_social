@@ -1,0 +1,35 @@
+require 'open-uri'
+
+# Running out of time so I'm going to go into detail about how I would solve
+# this problem. Was planning on iterating over the array of objects that were
+# returned. The pertinent information were in the "payload": {...} portions of
+# each object. Based on each object's "type": "..." value (PullRequest,
+# PullRequestEvent etc) I would build a post around each payload using the
+# "message" attribute or a "title" attribute. That could be done inside a
+# seperate service object. Maybe something called ProcessEvent which would take
+# in one entry hash at a time and then return a proper body and title.
+#
+# Idealy, a background process would do this periodically and skip duplicate
+# entires that have already been posted. Possibly only reading events until it
+# found the id of the last one it encountered. The best way would be able to
+# somehow filter the API results when making the request with a date/time that
+# would be to stored that was the last time the request was made and filter out
+# events that occurred before that time.
+class GithubApi
+  GITHUB_API_URL = "https://api.github.com"
+
+  attr_reader :posts
+
+  def initialize(user)
+    @github_username = user.github_username
+    @api_url = "#{GITHUB_API_URL}/users/#{@github_username}/events"
+  end
+  
+  def retrieve_github_feed!
+    # open-uri or/together with some type of JSON consumer would
+    # process the results.
+    file = open(@api_url)
+
+    # do something with the results
+  end
+end
