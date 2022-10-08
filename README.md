@@ -31,7 +31,7 @@ For example, if you want to view the third set of `10` posts (which starts at `2
 
 Method: `POST`, URL: `/posts`
 
-Parameters:
+Parameter format example:
 ```json
 {
   post: {
@@ -42,9 +42,55 @@ Parameters:
 }
 ```
 
+Response format example:
+```json
+{
+  "post": {
+    "id": 4,
+    "user_id": 1,
+    "title": "The title of the post",
+    "body": "The body of the post",
+    "posted_at": "2022-10-07T23:36:04.702Z"
+  }
+}
+```
+
 **To view a post:**
 
 Method: `GET`, URL: `/posts/:id` where `:id` is the `id` of the post you want to view.
+
+Response format example:
+
+```json
+{
+  "post": {
+    "id": 1,
+    "user_id": 1,
+    "title": "Post Title",
+    "body": "Post Body",
+    "posted_at": "2022-10-06T13:37:28.086Z",
+    "comments": [
+      {
+        "comment": {
+          "id": 1,
+          "user_id": 1,
+          "post_id": 1,
+          "message": "A comment",
+          "commented_at": "2022-10-06T13:38:06.663Z"
+        },
+        "user": {
+          "id": 1,
+          "email": "test@example.com",
+          "name": "A User Name",
+          "github_username": "example",
+          "registered_at": "2022-10-05T23:46:38.944Z",
+          "average_rating": 1
+        }
+      }
+    ]
+  }
+}
+```
 
 If the post doesn't exist a status of 404 will be returned and response will look like this:
 
