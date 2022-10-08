@@ -25,6 +25,31 @@ For example, if you want to view the third set of `10` posts (which starts at `2
 
 `/users/5?limit=10&offset=20`
 
+Response format example:
+
+```json
+{
+  "posts": [
+    {
+      "id": 2,
+      "user_id": 1,
+      "title": "Post Title 1",
+      "body": "The body of the post",
+      "posted_at": "2022-10-06T13:37:28.086Z",
+      "comment_count": 2
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "title": "Post Title 2",
+      "body": "The body of the post",
+      "posted_at": "2022-10-07T23:35:55.391Z",
+      "comment_count": 0
+    }
+  ]
+}
+```
+
 ### Posts
 
 **To create a post:**

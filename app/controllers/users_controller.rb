@@ -1,15 +1,14 @@
 class UsersController < ApplicationController
+  before_action :set_posts, only: %i[ show ]
   before_action :set_user, only: %i[ show ]
-
-  def show
-    @params = post_params
-    @posts = @user.posts.limit(@params[:limit]).offset(@params[:offset])
-
-    render json: @posts
-  end
+ 
+  def show; end
 
   private
 
+  # Don't really need this here. Ideally, I would have a
+  # FeedController (this would be the feed controller) and
+  # retrieving User data would be in (this) UsersController
   def set_user
     begin
       @user = User.find(params[:id])
@@ -17,11 +16,19 @@ class UsersController < ApplicationController
       render_error(404, "Record not found")
     end
   end
+  
+  def set_posts
+    # TODO: Could set max value for limit
 
-  def post_params
-    {
-      offset: params[:offset] ||= 0,
-      limit: params[:limit] ||= 5
-    }
+    begin
+      @posts = Post.includes(:comments)
+        .where(user_id: params[:id])
+        .limit(Integer(params[:limit] ||= 5))
+        .offset(Integer(params[:offset] ||= 0))
+    rescue
+      render_error(500, "An error occured")
+    end
   end
 end
+
+

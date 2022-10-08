@@ -31,7 +31,7 @@ RSpec.describe "Users", type: :request do
   
       it "returns the user's feed" do
         data = JSON.parse(response.body)
-        expect(data.length).to eq 3
+        expect(data["posts"].length).to eq 3
       end
       
       context "requesting the end of the user's posts" do
@@ -48,7 +48,7 @@ RSpec.describe "Users", type: :request do
 
         it "returns the last of the user's feed" do
           data = JSON.parse(response.body)
-          expect(data.length).to eq 4
+          expect(data["posts"].length).to eq 4
         end
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe "Users", type: :request do
         expect(response).to be_successful
   
         data = JSON.parse(response.body)
-        expect(data.length).to eq 5
+        expect(data["posts"].length).to eq 5
       end
     end
   end
