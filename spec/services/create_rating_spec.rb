@@ -68,5 +68,42 @@ RSpec.describe CreateRating do
         expect(create_rating.rating.rating).to eq 3
       end
     end
+
+    context "when a user's receives it's first rating and its over 4 stars" do
+      let(:user) { create(:user) }
+      let(:rater) { create(:user) }
+      
+      it "should create a post announcing this" do
+        expect {
+          CreateRating.new({ user_id: user.id, rater_id: rater.id, rating: 4}).save
+        }.to change(Post, :count).by(1)
+
+        post = Post.last
+
+        expect(post.title).to eq "You passed 4 stars!"
+        expect(post.body).to eq "Congratulations!"
+      end
+    end
+
+    context "when a user's average rating goes above 4 stars" do
+      let(:user) { create(:user) }
+      let(:rater_1) { create(:user) }
+      let(:rater_2) { create(:user) }
+
+      before do
+        CreateRating.new({ user_id: user.id, rater_id: rater_1.id, rating: 3}).save
+      end
+      
+      it "should create a post announcing this" do
+        expect {
+          CreateRating.new({ user_id: user.id, rater_id: rater_2.id, rating: 5}).save
+        }.to change(Post, :count).by(1)
+
+        post = Post.last
+
+        expect(post.title).to eq "You passed 4 stars!"
+        expect(post.body).to eq "Congratulations!"
+      end
+    end
   end
 end

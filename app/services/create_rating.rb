@@ -1,4 +1,6 @@
 class CreateRating
+  RATING_THRESHOLD = 4
+
   attr_reader :error_messages
   attr_reader :rating
 
@@ -27,7 +29,14 @@ class CreateRating
 
     if user.ratings.pluck(:rater_id).include? rater_id
       @rating = Rating.where(user_id: user_id, rater_id: rater_id).first
+      current_average_rating = user.average_rating
       @rating.update(rating: rating_value) if @rating.present?
+
+      user.reload
+
+      if current_average_rating < RATING_THRESHOLD && user.average_rating >= RATING_THRESHOLD
+        create_rating_post!(user_id)
+      end
     else
       @rating = Rating.new(@params.merge({ rated_at: DateTime.now }))
 
@@ -36,8 +45,16 @@ class CreateRating
 
         return false
       end
+
+      create_rating_post!(user_id) if rating_value >= RATING_THRESHOLD
     end
 
     true
+  end
+
+  private
+
+  def create_rating_post!(user_id)
+    CreatePost.new({ user_id: user_id, title: "You passed 4 stars!", body: "Congratulations!" }).save
   end
 end
