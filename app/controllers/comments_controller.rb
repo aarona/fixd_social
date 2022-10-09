@@ -6,9 +6,9 @@ class CommentsController < ApplicationController
 
     if service.save
       @comment = service.comment
-      render json: @comment, status: :created, location: @comment
+      response.status = 201
     else
-      render json: service.error_messages, status: :unprocessable_entity
+      render_error(422, service.error_messages)
     end
   end
 
