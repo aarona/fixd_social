@@ -31,17 +31,17 @@ rspec .
 
 **To view a user's feed:**
 
-Method: `GET`, URL: `/users/:id` where `:id` is the `id` of the user with the feed you want to view.
+Method: `GET`, URL: `/users/:id` where `:id` is the id of the user with the feed you want to view.
 
-Parameters:
+**Parameters:**
 
-If you pass no parameters to the URL, it will fetch the first five posts for that user. The URL accepts two parameters that you can pass it: `limit` and `offset`. `Limit` is the number of posts you want returned and `offset` is nth record you want to start at. 
+If you pass no parameters to the URL, it will fetch the first five posts for that user. The URL accepts two parameters that you can pass it: `limit` and `offset`. `Limit` is the number of posts you want returned and `offset` is nth record you want to start at. If `limit` is not passed, it is defaulted to `0`. Likewis, if `offset` is not passed, it is defaulted to `5`.
 
-For example, if you want to view the third set of `10` posts (which starts at `20`) for a particular user with `id` of `5`, you would query this endpoint:
+For example, if you want to view the third set of `10` posts (which starts at `20`) for a particular user with id of `5`, you would query this endpoint:
 
 `/users/5?limit=10&offset=20`
 
-Response format example:
+**Response format example:**
 
 ```json
 {
@@ -66,26 +66,46 @@ Response format example:
 }
 ```
 
+If any of the parameters sent are invalid (`offset` and `limit` must be integer values), you receive a response like this:
+
+```json
+{
+    "errors": [
+        "An error occured"
+    ]
+}
+```
+
 ### Posts
 
 **To create a post:**
 
 Method: `POST`, URL: `/posts`
 
-Parameter format example:
+**Parameters:**
 
-```
-// user_id is the id of post owner
+`user_id` is the id of post owner.
+
+`title` is the title of the post.
+
+`body` is the body of the post.
+
+All parameters are required.
+
+**Parameter format example:**
+
+```json
 {
-  post: {
-    title: "The title of the post",
-    body: "The body of the post",
-    user_id: 1
+  "post": {
+    "user_id": 1,
+    "title": "The title of the post",
+    "body": "The body of the post"
   }
 }
 ```
 
-Response format example:
+**Response format example:**
+
 ```json
 {
   "post": {
@@ -98,11 +118,23 @@ Response format example:
 }
 ```
 
+If the values sent are invalid you will receive an error object as json in the response similar to this:
+
+```json
+{
+  "errors": [
+    "User must exist",
+    "Title can't be blank",
+    "Body can't be blank"
+  ]
+}
+```
+
 **To view a post:**
 
-Method: `GET`, URL: `/posts/:id` where `:id` is the `id` of the post you want to view.
+Method: `GET`, URL: `/posts/:id` where `:id` is the id of the post you want to view.
 
-Response format example:
+**Response format example**:
 
 ```json
 {
@@ -149,15 +181,48 @@ If the post doesn't exist a status of 404 will be returned and response will loo
 
 Method: `POST`, URL: `/comments`
 
-Parameter format example:
+**Parameters:**
+
+`user_id` is the id of commenter.
+
+`post_id` is the id of the post bing commented on.
+
+`message` is the message of the comment.
+
+All parameters are required.
+
+**Parameter format example:**
 
 ```json
 {
   "comment": {
-    "user_id": 1, // id of commenter
-    "post_id": 1, // id of the post being commented on
+    "user_id": 1,
+    "post_id": 1,
     "message": "The message of the comment",
   }
+}
+```
+
+**Response format example:**
+
+```json
+{
+  "id": 1,
+  "user_id": 1,
+  "post_id": 1,
+  "message": "The message of the comment",
+  "commented_at": "2022-10-09T01:43:09.221Z"
+}
+```
+
+If the values sent are invalid you will receive an error object as json in the response similar to this:
+
+```json
+{
+  "errors": [
+    "User must exist",
+    "Message can't be blank"
+  ]
 }
 ```
 
@@ -179,14 +244,48 @@ If the comment doesn't exist a status of 404 will be returned and response will 
 
 Method: `POST`, URL: `/ratings`
 
-Parameter format example:
+**Parameters:**
+
+`rater_id` is the id of user making the rating.
+
+`user_id` is the id of usr being rated.
+
+`rating` is the rating. Must be between 1 and 5 (inclusive).
+
+All parameters are required.
+
+**Parameter format example:**
 
 ```json
 {
   "rating": {
-    "rater_id": 1, // id of the user who is rating another
-    "user_id": 1, // id of the user being rated
-    "rating": 5 // Must be between 1 and 5 (inclusive)
+    "rater_id": 1,
+    "user_id": 1,
+    "rating": 5
   }
+}
+```
+
+**Response format example:**
+
+```json
+{
+  "rating": {
+    "user_id": 2,
+    "rater_id": 1,
+    "rating": 5,
+    "rated_at": "2022-10-09T01:57:21.647Z"
+  }
+}
+```
+
+If the values sent are invalid you will receive an error object as json in the response similar to this:
+
+```json
+{
+  "errors": [
+    "Rater must exist",
+    "Rating must be greater than or equal to 1"
+  ]
 }
 ```
