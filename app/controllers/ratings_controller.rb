@@ -4,10 +4,12 @@ class RatingsController < ApplicationController
     
     if service.save
       @rating = service.rating
+      response.status = 201
 
-      render json: @rating, status: :created
+      # render json: @rating, status: :created
     else
-      render json: service.error_messages, status: :unprocessable_entity
+      # render json: service.error_messages, status: :unprocessable_entity
+      render_error(422, service.error_messages)
     end
   end
 
