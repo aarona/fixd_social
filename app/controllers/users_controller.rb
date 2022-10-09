@@ -18,14 +18,8 @@ class UsersController < ApplicationController
   end
   
   def set_posts
-    # TODO: Could set max value for limit here.
-    # Something like 20 for example.
-
     begin
-      @posts = Post.includes(:comments)
-        .where(user_id: params[:id])
-        .limit(Integer(params[:limit] ||= 5))
-        .offset(Integer(params[:offset] ||= 0))
+      @posts = Post.feed(user_id: params[:id], limit: params[:limit], offset: params[:offset])
     rescue
       render_error(500, "An error occured")
     end
