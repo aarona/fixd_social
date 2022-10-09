@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   end
   
   def set_posts
-    # TODO: Could set max value for limit
+    # TODO: Could set max value for limit here.
+    # Something like 20 for example.
 
     begin
       @posts = Post.includes(:comments)
