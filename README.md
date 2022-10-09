@@ -2,6 +2,21 @@
 
 The following is the documentation for FIXD Social.
 
+## Environment Setup
+
+To set up the database, you must create the database and run the migrations:
+
+```
+rake db:create
+rake db:migrate
+```
+
+You can also seed the development database with this command:
+
+```
+rake db:seed
+```
+
 ## Testing
 
 The output of the tests are also a form of documentation for the specifications. You can run the tests like so:
@@ -9,6 +24,7 @@ The output of the tests are also a form of documentation for the specifications.
 ```
 rspec .
 ```
+
 ## API
 
 ### Users
@@ -57,12 +73,14 @@ Response format example:
 Method: `POST`, URL: `/posts`
 
 Parameter format example:
-```json
+
+```
+// user_id is the id of post owner
 {
   post: {
     title: "The title of the post",
     body: "The body of the post",
-    user_id: 1 // id of post owner
+    user_id: 1
   }
 }
 ```
@@ -131,13 +149,14 @@ If the post doesn't exist a status of 404 will be returned and response will loo
 
 Method: `POST`, URL: `/comments`
 
-Parameters:
+Parameter format example:
+
 ```json
 {
-  comment: {
-    user_id: 1, // id of commenter
-    post_id: 1, // id of the post being commented on
-    message: "The message of the comment",
+  "comment": {
+    "user_id": 1, // id of commenter
+    "post_id": 1, // id of the post being commented on
+    "message": "The message of the comment",
   }
 }
 ```
@@ -160,13 +179,14 @@ If the comment doesn't exist a status of 404 will be returned and response will 
 
 Method: `POST`, URL: `/ratings`
 
-Parameters:
+Parameter format example:
+
 ```json
 {
-  rating: {
-    rater_id: 1, // id of the user who is rating another
-    user_id: 1, // id of the user being rated
-    rating: 5 // Must be between 1 and 5 (inclusive)
+  "rating": {
+    "rater_id": 1, // id of the user who is rating another
+    "user_id": 1, // id of the user being rated
+    "rating": 5 // Must be between 1 and 5 (inclusive)
   }
 }
 ```
