@@ -14,6 +14,10 @@ module Loggable
   def create_activity!
     Activity.create(user_id: self.user_id, loggable: self, posted_at: DateTime.now)
   end
+
+  def create_github_activity!
+    Activity.create(user_id: self.user_id, loggable: self, posted_at: self.created_at)
+  end
   
   def save_activity!
     return unless activity.changed?
