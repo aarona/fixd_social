@@ -20,25 +20,15 @@ class CreateGithubEvent
         
       # Pushed some commmits
       when "PushEvent"
-        puts "  Pushed some commits"
+        # puts "  Pushed some commits"
+        return create_push_event!
 
       when "PullRequestEvent"
         # Opened a new Pull Request
         if @event["payload"]["action"] == "opened" ||
            @event["payload"]["action"] == "closed"
 
-           service = CreatePullRequestEvent.new({
-            user_id: @user.id,
-            number: @event["payload"]["number"],
-            repo: @event["repo"]["name"],
-            action: @event["payload"]["action"],
-            created_at: @event["created_at"],
-          })
-
-          return true if service.save
-
-          @error_messages = service.error_messages
-          return false
+           return create_pull_request_event!
         else
           @skipped = true
           return false
@@ -52,4 +42,41 @@ class CreateGithubEvent
   def skipped?
     @skipped
   end
+
+  private
+
+  def create_pull_request_event!
+    service = CreatePullRequestEvent.new({
+      event_id: @event["id"],
+      user_id: @user.id,
+      number: @event["payload"]["number"],
+      repo: @event["repo"]["name"],
+      action: @event["payload"]["action"],
+      created_at: @event["created_at"]
+    })
+
+    return true if service.save
+
+    @error_messages = service.error_messages
+    
+    false
+  end
+
+  def create_push_event!
+    service = CreatePushEvent.new({
+      event_id: @event["id"],
+      user_id: @user.id,
+      commits: @event["payload"]["commits"].length,
+      repo: @event["repo"]["name"],
+      branch: @event["payload"]["ref"],
+      created_at: @event["created_at"]
+    })
+
+    return true if service.save
+
+    @error_messages = service.error_messages
+
+    false
+  end
+  
 end
