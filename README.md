@@ -2,20 +2,25 @@
 
 The following is the documentation for FIXD Social.
 
+## Table of Contents
+* [Environment Setup](#environment-setup)
+* [Testing](#testing)
+* [API](#api)
+  * [Users](#users)
+  * [Posts](#posts)
+  * [Comments](#comments)
+  * [Ratings](#ratings)
+* [GitHub API](#github-api)
+
 ## Environment Setup
 
-To set up the database, you must create the database and run the migrations:
+To set up the database, run this command:
 
 ```
-rake db:create
-rake db:migrate
+rake db:setup
 ```
 
-You can also seed the development database with this command:
-
-```
-rake db:seed
-```
+This will create and migrate the database and then seed it with test data.
 
 ## Testing
 
@@ -31,7 +36,11 @@ rspec .
 
 **To view a user's feed:**
 
-Method: `GET`, URL: `/users/:id` where `:id` is the id of the user with the feed you want to view.
+Method:
+
+`GET /users/:id`
+
+where `:id` is the id of the user with the feed you want to view.
 
 **Parameters:**
 
@@ -39,7 +48,7 @@ If you pass no parameters to the URL, it will fetch the first five posts for tha
 
 For example, if you want to view the third set of `10` posts (which starts at `20`) for a particular user with id of `5`, you would query this endpoint:
 
-`/users/5?limit=10&offset=20`
+`GET /users/5?limit=10&offset=20`
 
 **Response format example:**
 
@@ -80,7 +89,9 @@ If any of the parameters sent are invalid (`offset` and `limit` must be integer 
 
 **To create a post:**
 
-Method: `POST`, URL: `/posts`
+Method:
+
+`POST /posts`
 
 **Parameters:**
 
@@ -132,7 +143,11 @@ If the values sent are invalid you will receive an error object as json in the r
 
 **To view a post:**
 
-Method: `GET`, URL: `/posts/:id` where `:id` is the id of the post you want to view.
+Method:
+
+`GET /posts/:id`
+
+where `:id` is the id of the post you want to view.
 
 **Response format example**:
 
@@ -179,7 +194,9 @@ If the post doesn't exist a status of 404 will be returned and response will loo
 
 **To add a comment:**
 
-Method: `POST`, URL: `/comments`
+Method:
+
+`POST /comments`
 
 **Parameters:**
 
@@ -228,9 +245,11 @@ If the values sent are invalid you will receive an error object as json in the r
 
 **To remove a comment:**
 
-Method: `DELETE`, URL: `/comments/:id` where `:id` is the `id` of the comment you want to remove.
+Method:
 
-If the comment doesn't exist a status of 404 will be returned and response will look like this:
+`DELETE /comments/:id`
+
+where `:id` is the `id` of the comment you want to remove. If the comment doesn't exist a status of 404 will be returned and response will look like this:
 
 ```json
 {
@@ -242,7 +261,9 @@ If the comment doesn't exist a status of 404 will be returned and response will 
 
 **To rate a user:**
 
-Method: `POST`, URL: `/ratings`
+Method:
+
+`POST /ratings`
 
 **Parameters:**
 
@@ -289,3 +310,19 @@ If the values sent are invalid you will receive an error object as json in the r
   ]
 }
 ```
+
+## GitHub API
+
+To simulate a separate process for pulling down GitHub events, I've set up a rake task to do this. The task takes one or more GitHub user names and as long as a user in the database has that GitHub  user name associated with, it will attempt to process the last 90 days of events. To run the task, you can run this command:
+
+```
+rake github_events:import user1 [user2, user3 etc]
+```
+
+A quick way to add a user to the system with a github profile associated with the account is to run the following command in `rails console` like so:
+
+```ruby
+FactoryBot.create(:user, github_username: "myusername" )
+```
+
+and then proceed to import the records using the rake task mentioned above.
