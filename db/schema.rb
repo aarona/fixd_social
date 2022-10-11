@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_06_011525) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_11_190753) do
   create_table "activities", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "loggable_id", null: false
@@ -44,6 +44,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_011525) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "pull_request_events", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.integer "user_id", null: false
+    t.integer "number", null: false
+    t.string "repo", null: false
+    t.string "action", null: false
+    t.datetime "created_at", null: false
+    t.index ["event_id"], name: "index_pull_request_events_on_event_id"
+    t.index ["user_id"], name: "index_pull_request_events_on_user_id"
+  end
+
   create_table "ratings", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "rater_id", null: false
@@ -68,6 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_011525) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "pull_request_events", "users"
   add_foreign_key "ratings", "users"
   add_foreign_key "ratings", "users", column: "rater_id"
 end

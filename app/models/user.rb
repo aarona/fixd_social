@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_many :ratings
   has_many :posts
-
+  has_many :activities, dependent: :destroy
+  
   default_scope { includes(:ratings) }
 
   validates_presence_of :email, :name, :registered_at
