@@ -44,5 +44,33 @@ RSpec.describe PushEvent, type: :model do
         expect(event.errors.full_messages).to include "Event must be unique"
       end
     end
+
+    context "when creating an event" do
+      let(:event) { build(:push_event) }
+
+      it "should have an associated activity with it" do
+        expect {
+          event.save
+        }.to change(Activity, :count).by(1)
+
+        activity = Activity.last
+
+        expect(event.id).to eq activity.loggable_id
+        expect(activity.loggable_type).to eq "PushEvent"
+      end
+    end
+
+    context "when an event exists" do
+      let(:event) { create(:push_event) }
+      let(:activity) { event.activity }
+
+      before do
+        event.destroy
+      end
+
+      it "the associated activity should also be deleted" do
+        expect(activity).to be_destroyed
+      end
+    end
   end
 end
