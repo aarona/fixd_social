@@ -56,7 +56,7 @@ class CreateGithubEvent
     return true if service.save
 
     @error_messages = service.error_messages
-    
+    @skipped = true
     false
   end
   
@@ -73,7 +73,7 @@ class CreateGithubEvent
     return true if service.save
 
     @error_messages = service.error_messages
-    
+    @skipped = true
     false
   end
 
@@ -90,7 +90,7 @@ class CreateGithubEvent
     return true if service.save
 
     @error_messages = service.error_messages
-
+    @skipped = true
     false
   end
 end

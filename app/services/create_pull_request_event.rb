@@ -17,7 +17,12 @@ class CreatePullRequestEvent
   end
   
   def save
-    puts "  CreatePullRequestEvent: params..." #{@params.inspect}"
-    true
+    @user_id = @params[:user_id]
+    @event = PullRequestEvent.new(@params)
+
+    return true if @event.save
+
+    @error_messages = @event.errors.full_messages
+    false
   end
 end
