@@ -127,6 +127,8 @@ GEM
     minitest (5.16.3)
     msgpack (1.6.0)
     multipart-post (2.1.1)
+    net-http (0.2.2)
+      uri
     net-imap (0.3.1)
       net-protocol
     net-pop (0.1.2)
@@ -196,6 +198,7 @@ GEM
     timeout (0.3.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    uri (0.11.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -211,6 +214,7 @@ DEPENDENCIES
   faker
   faraday
   jbuilder
+  net-http
   puma (~> 5.0)
   rails (~> 7.0.4)
   rspec-rails
@@ -221,4 +225,4 @@ RUBY VERSION
    ruby 2.7.2p137
 
 BUNDLED WITH
-   2.2.28
+   2.3.23
