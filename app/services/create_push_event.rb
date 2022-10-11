@@ -16,8 +16,11 @@ class CreatePushEvent
   end
   
   def save
-    puts "  CreatePushEvent: params... " #{@params.inspect}"
+    @event = PushEvent.new(@params)
 
-    true
+    return true if @event.save
+
+    @error_messages = @event.errors.full_messages
+    false
   end
 end

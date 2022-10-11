@@ -17,7 +17,6 @@ class CreatePullRequestEvent
   end
   
   def save
-    @user_id = @params[:user_id]
     @event = PullRequestEvent.new(@params)
 
     return true if @event.save
