@@ -3,7 +3,6 @@ class Post < ApplicationRecord
 
   belongs_to :user
   has_one :activity, as: :loggable, dependent: :destroy
-  # accepts_nested_attributes_for :activity #, reject_if: ->(attributes){ attributes['name'].blank? }, allow_destroy: true
   has_many :comments, dependent: :destroy
 
   default_scope { includes(:activity) }
@@ -17,7 +16,7 @@ class Post < ApplicationRecord
       .offset(Integer(offset ||= 0))
   }
 
-  validates_presence_of :title, :body #, :posted_at
+  validates_presence_of :title, :body
 
   after_create :create_activity!
   after_save :save_activity!
@@ -25,12 +24,4 @@ class Post < ApplicationRecord
   def comment_count
     comments.length
   end
-
-  # def posted_at
-  #   activity.posted_at
-  # end
-
-  # def post_at=(value)
-  #   activity.posted_at = value
-  # end
 end
