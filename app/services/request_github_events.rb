@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'faraday'
 
 # Running out of time so I'm going to go into detail about how I would solve
 # this problem. Was planning on iterating over the array of objects that were
@@ -15,21 +15,47 @@ require 'open-uri'
 # somehow filter the API results when making the request with a date/time that
 # would be to stored that was the last time the request was made and filter out
 # events that occurred before that time.
-class GithubApi
+class RequestGithubEvents
   GITHUB_API_URL = "https://api.github.com"
 
-  attr_reader :posts
+  attr_reader :events
+  attr_reader :imported, :skipped, :errors
 
   def initialize(user)
-    @github_username = user.github_username
-    @api_url = "#{GITHUB_API_URL}/users/#{@github_username}/events"
+    @user = user
+    github_username = user.github_username
+    @api_url = "#{GITHUB_API_URL}/users/#{github_username}/events"
+    @events = []
+    @imported = @skipped = @errors = 0
+  end
+
+  def import
+    puts "  GET #{@api_url}"
+    request_events
+    process_events
   end
   
-  def retrieve_github_feed!
-    # open-uri or/together with some type of JSON consumer would
-    # process the results.
-    file = open(@api_url)
+  private
 
-    # do something with the results
+  def request_events
+    @response = Faraday.get(@api_url)
+  end
+  
+  def process_events
+    events = JSON.parse(@response.body)
+
+    puts "  Events found: #{events.length}"
+    events.each do |event|
+      event = CreateGithubEvent.new(@user, event)
+
+      if event.save
+        @events << event
+        @imported += 1
+      elsif event.skipped?
+        @skipped += 1
+      else
+        @errors += 1
+      end
+    end
   end
 end
