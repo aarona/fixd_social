@@ -60,7 +60,7 @@ RSpec.describe PullRequestEvent, type: :model do
       end
     end
 
-    context "when an event exists" do
+    context "when an event is destroyed" do
       let(:event) { create(:pull_request_event) }
       let(:activity) { event.activity }
 

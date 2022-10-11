@@ -34,5 +34,33 @@ RSpec.describe CreateEvent, type: :model do
         expect(event.errors.full_messages).to include "Event must be unique"
       end
     end
+
+    context "when creating an event" do
+      let(:event) { build(:create_event) }
+
+      it "should have an associated activity with it" do
+        expect {
+          event.save
+        }.to change(Activity, :count).by(1)
+
+        activity = Activity.last
+
+        expect(event.id).to eq activity.loggable_id
+        expect(activity.loggable_type).to eq "CreateEvent"
+      end
+    end
+
+    context "when an event is destroyed" do
+      let(:event) { create(:create_event) }
+      let(:activity) { event.activity }
+
+      before do
+        event.destroy
+      end
+
+      it "the associated activity should also be deleted" do
+        expect(activity).to be_destroyed
+      end
+    end
   end
 end
