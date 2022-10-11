@@ -16,16 +16,16 @@ class CreateGithubEvent
     case event_type
       # Created a new Repo
       when "CreateEvent"
-        puts "  Created a new Repo"
-        
+        return create_create_event!
+
       # Pushed some commmits
       when "PushEvent"
-        # puts "  Pushed some commits"
         return create_push_event!
 
       when "PullRequestEvent"
         # Opened a new Pull Request
         if @event["payload"]["action"] == "opened" ||
+           # Merge a Pull Request
            @event["payload"]["action"] == "closed"
 
            return create_pull_request_event!
@@ -45,6 +45,21 @@ class CreateGithubEvent
 
   private
 
+  def create_create_event!
+    service = CreateCreateEvent.new({
+      event_id: @event["id"],
+      user_id: @user.id,
+      repo: @event["repo"]["name"],
+      created_at: @event["created_at"]
+    })
+
+    return true if service.save
+
+    @error_messages = service.error_messages
+    
+    false
+  end
+  
   def create_pull_request_event!
     service = CreatePullRequestEvent.new({
       event_id: @event["id"],
