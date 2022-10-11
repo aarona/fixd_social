@@ -16,7 +16,7 @@ class CreatePushEvent
   end
   
   def save
-    puts "  CreatePushEvent: #{@params.inspect}"
+    puts "  CreatePushEvent: params... " #{@params.inspect}"
 
     true
   end

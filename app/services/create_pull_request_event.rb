@@ -17,7 +17,7 @@ class CreatePullRequestEvent
   end
   
   def save
-    puts "  CreatePullRequestEvent: #{@params.inspect}"
+    puts "  CreatePullRequestEvent: params..." #{@params.inspect}"
     true
   end
 end
