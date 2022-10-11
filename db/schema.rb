@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_07_174206) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_06_011525) do
+  create_table "activities", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "loggable_id", null: false
+    t.string "loggable_type", null: false
+    t.datetime "posted_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["loggable_id", "loggable_type"], name: "index_activities_on_loggable_id_and_loggable_type", unique: true
+    t.index ["posted_at"], name: "index_activities_on_posted_at"
+    t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "post_id", null: false
@@ -27,7 +39,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_174206) do
     t.string "title", null: false
     t.string "body", null: false
     t.integer "user_id", null: false
-    t.datetime "posted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
@@ -53,6 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_174206) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "activities", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"

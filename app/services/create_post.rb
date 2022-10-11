@@ -12,17 +12,11 @@ class CreatePost
   end
 
   def save
-    @post = Post.new(post_params)
+    @post = Post.new(@params)
 
     return true if @post.save
 
     @error_messages = @post.errors.full_messages
     false
-  end
-
-  private
-
-  def post_params
-    @params.merge({ posted_at: DateTime.now })
   end
 end

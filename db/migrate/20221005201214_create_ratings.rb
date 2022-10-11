@@ -9,5 +9,6 @@ class CreateRatings < ActiveRecord::Migration[7.0]
     end
     
     add_foreign_key :ratings, :users, column: :rater_id
+    add_index :ratings, [:rater_id, :user_id], unique: true
   end
 end
