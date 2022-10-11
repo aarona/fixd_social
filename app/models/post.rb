@@ -1,8 +1,6 @@
 class Post < ApplicationRecord
   include Loggable
 
-  belongs_to :user
-  has_one :activity, as: :loggable, dependent: :destroy
   has_many :comments, dependent: :destroy
 
   default_scope { includes(:activity) }
@@ -19,7 +17,6 @@ class Post < ApplicationRecord
   validates_presence_of :title, :body
 
   after_create :create_activity!
-  after_save :save_activity!
 
   def comment_count
     comments.length
