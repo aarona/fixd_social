@@ -14,8 +14,11 @@ class CreateCreateEvent
   end
   
   def save
-    puts "  CreateCreateEvent: params..." #{@params.inspect}"
+    @event = CreateEvent.new(@params)
 
-    true
+    return true if @event.save
+
+    @error_messages = @event.errors.full_messages
+    false
   end
 end
