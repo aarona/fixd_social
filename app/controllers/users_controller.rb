@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   
   def set_posts
     begin
-      @posts = Post.feed(user_id: params[:id], limit: params[:limit], offset: params[:offset])
+      @activities = Activity.feed(user_id: params[:id], limit: params[:limit], offset: params[:offset])
     rescue
       render_error(500, "An error occured")
     end
