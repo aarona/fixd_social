@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_11_193930) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_11_195500) do
   create_table "activities", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "loggable_id", null: false
@@ -35,6 +35,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_193930) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "create_events", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.integer "user_id", null: false
+    t.string "repo", null: false
+    t.datetime "created_at", null: false
+    t.index ["event_id"], name: "index_create_events_on_event_id", unique: true
+    t.index ["user_id"], name: "index_create_events_on_user_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title", null: false
     t.string "body", null: false
@@ -51,7 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_193930) do
     t.string "repo", null: false
     t.string "action", null: false
     t.datetime "created_at", null: false
-    t.index ["event_id"], name: "index_pull_request_events_on_event_id"
+    t.index ["event_id"], name: "index_pull_request_events_on_event_id", unique: true
     t.index ["user_id"], name: "index_pull_request_events_on_user_id"
   end
 
@@ -62,7 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_193930) do
     t.string "repo", null: false
     t.string "branch", null: false
     t.datetime "created_at", null: false
-    t.index ["event_id"], name: "index_push_events_on_event_id"
+    t.index ["event_id"], name: "index_push_events_on_event_id", unique: true
     t.index ["user_id"], name: "index_push_events_on_user_id"
   end
 
@@ -84,11 +93,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_193930) do
     t.datetime "registered_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "activities", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "create_events", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "pull_request_events", "users"
   add_foreign_key "push_events", "users"

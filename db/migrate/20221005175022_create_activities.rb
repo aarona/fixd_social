@@ -7,8 +7,7 @@ class CreateActivities < ActiveRecord::Migration[7.0]
       t.datetime :posted_at, null: false, index: true
 
       t.timestamps
+      t.index [:loggable_id, :loggable_type], unique: true
     end
-
-    add_index :activities, [:loggable_id, :loggable_type], unique: true
   end
 end
