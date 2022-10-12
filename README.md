@@ -56,20 +56,41 @@ For example, if you want to view the third set of `10` posts (which starts at `2
 {
   "posts": [
     {
-      "id": 2,
-      "user_id": 1,
-      "title": "Post Title 1",
-      "body": "The body of the post",
-      "posted_at": "2022-10-06T13:37:28.086Z",
-      "comment_count": 2
+        "id": 327,
+        "type": "Post",
+        "user_id": 11,
+        "title": "Incidunt amet est perferendis",
+        "body": "Qui vitae tenetur. Quisquam autem fugit. Qui dolore aspernatur.",
+        "comment_count": 4,
+        "posted_at": "2022-10-11T23:12:13.046Z"
     },
     {
-      "id": 3,
-      "user_id": 1,
-      "title": "Post Title 2",
-      "body": "The body of the post",
-      "posted_at": "2022-10-07T23:35:55.391Z",
-      "comment_count": 0
+        "id": 327,
+        "type": "PullRequestEvent",
+        "user_id": 11,
+        "event_id": 24508326313,
+        "number": 1,
+        "repo": "aarona/fixd_social",
+        "action": "opened",
+        "posted_at": "2022-10-10T18:38:08.000Z"
+    },
+    {
+        "id": 328,
+        "type": "CreateEvent",
+        "user_id": 11,
+        "event_id": 24508312792,
+        "repo": "aarona/fixd_social",
+        "posted_at": "2022-10-10T18:37:16.000Z"
+    },
+    {
+        "id": 329,
+        "type": "PushEvent",
+        "user_id": 11,
+        "event_id": 24482576663,
+        "commits": 1,
+        "repo": "aarona/fixd_social",
+        "branch": "refs/heads/master",
+        "posted_at": "2022-10-09T02:26:26.000Z"
     }
   ]
 }
@@ -292,6 +313,7 @@ All parameters are required.
 ```json
 {
   "rating": {
+    "id": 3,
     "user_id": 2,
     "rater_id": 1,
     "rating": 5,
