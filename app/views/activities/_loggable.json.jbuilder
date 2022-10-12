@@ -7,4 +7,6 @@ when "PullRequestEvent"
   json.partial! 'pull_request_events/pull_request_event', post: loggable, as: :post
 when "PushEvent"
   json.partial! 'push_events/push_event', post: loggable, as: :post
+when "RatingChange"
+  json.partial! 'rating_changes/rating_change', post: loggable, as: :post
 end

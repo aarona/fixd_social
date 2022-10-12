@@ -56,41 +56,49 @@ For example, if you want to view the third set of `10` posts (which starts at `2
 {
   "posts": [
     {
-        "id": 327,
-        "type": "Post",
-        "user_id": 11,
-        "title": "Incidunt amet est perferendis",
-        "body": "Qui vitae tenetur. Quisquam autem fugit. Qui dolore aspernatur.",
-        "comment_count": 4,
-        "posted_at": "2022-10-11T23:12:13.046Z"
+      "id": 325,
+      "type": "Post",
+      "user_id": 11,
+      "title": "Incidunt amet est perferendis",
+      "body": "Qui vitae tenetur. Quisquam autem fugit. Qui dolore aspernatur.",
+      "comment_count": 4,
+      "posted_at": "2022-10-11T23:12:13.046Z"
     },
     {
-        "id": 327,
-        "type": "PullRequestEvent",
-        "user_id": 11,
-        "event_id": 24508326313,
-        "number": 1,
-        "repo": "aarona/fixd_social",
-        "action": "opened",
-        "posted_at": "2022-10-10T18:38:08.000Z"
+      "id": 326,
+      "type": "PullRequestEvent",
+      "user_id": 11,
+      "event_id": 24508326313,
+      "number": 1,
+      "repo": "aarona/fixd_social",
+      "action": "opened",
+      "posted_at": "2022-10-11T18:38:08.000Z"
     },
     {
-        "id": 328,
-        "type": "CreateEvent",
-        "user_id": 11,
-        "event_id": 24508312792,
-        "repo": "aarona/fixd_social",
-        "posted_at": "2022-10-10T18:37:16.000Z"
+      "id": 327,
+      "type": "RatingChange",
+      "user_id": 10,
+      "rating_threshold": 4,
+      "average_rating": 4.5,
+      "posted_at": "2022-10-11T01:52:27.657Z"
     },
     {
-        "id": 329,
-        "type": "PushEvent",
-        "user_id": 11,
-        "event_id": 24482576663,
-        "commits": 1,
-        "repo": "aarona/fixd_social",
-        "branch": "refs/heads/master",
-        "posted_at": "2022-10-09T02:26:26.000Z"
+      "id": 328,
+      "type": "CreateEvent",
+      "user_id": 11,
+      "event_id": 24508312792,
+      "repo": "aarona/fixd_social",
+      "posted_at": "2022-10-10T18:37:16.000Z"
+    },
+    {
+      "id": 329,
+      "type": "PushEvent",
+      "user_id": 11,
+      "event_id": 24482576663,
+      "commits": 1,
+      "repo": "aarona/fixd_social",
+      "branch": "refs/heads/master",
+      "posted_at": "2022-10-09T02:26:26.000Z"
     }
   ]
 }
