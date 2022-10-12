@@ -69,19 +69,18 @@ RSpec.describe CreateRating do
       end
     end
 
-    context "when a user's receives it's first rating and its over 4 stars" do
+    context "when a user receives their first rating and its over 4 stars" do
       let(:user) { create(:user) }
       let(:rater) { create(:user) }
       
-      it "should create a post announcing this" do
+      it "should create a rating notifiction announcing this" do
         expect {
           CreateRating.new({ user_id: user.id, rater_id: rater.id, rating: 4}).save
-        }.to change(Post, :count).by(1)
+        }.to change(RatingChange, :count).by(1)
 
-        post = Post.last
+        rating_change = RatingChange.last
 
-        expect(post.title).to eq "You passed 4 stars!"
-        expect(post.body).to eq "Congratulations!"
+        expect(rating_change.rating).to eq 4
       end
     end
 
@@ -94,15 +93,14 @@ RSpec.describe CreateRating do
         CreateRating.new({ user_id: user.id, rater_id: rater_1.id, rating: 3}).save
       end
       
-      it "should create a post announcing this" do
+      it "should create a rating notification announcing this" do
         expect {
           CreateRating.new({ user_id: user.id, rater_id: rater_2.id, rating: 5}).save
-        }.to change(Post, :count).by(1)
+        }.to change(RatingChange, :count).by(1)
 
-        post = Post.last
+        rating_change = RatingChange.last
 
-        expect(post.title).to eq "You passed 4 stars!"
-        expect(post.body).to eq "Congratulations!"
+        expect(rating_change.rating).to eq 4
       end
     end
   end

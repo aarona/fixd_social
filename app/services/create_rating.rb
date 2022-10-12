@@ -37,8 +37,8 @@ class CreateRating
 
   private
 
-  def create_rating_post!
-    CreatePost.new({ user_id: @user_id, title: "You passed 4 stars!", body: "Congratulations!" }).save
+  def create_rating_notification!
+    CreateRatingNotification.new({ user_id: @user_id, rating: RATING_THRESHOLD }).save
   end
 
   def create_user_rating!
@@ -50,7 +50,7 @@ class CreateRating
       return false
     end
 
-    create_rating_post! if @rating_value >= RATING_THRESHOLD
+    create_rating_notification! if @rating_value >= RATING_THRESHOLD
 
     true
   end
@@ -69,7 +69,7 @@ class CreateRating
     @rating.update(rating: @rating_value) if @rating.present?
     @user.reload
 
-    create_rating_post! if user_met_rating_threshold?
+    create_rating_notification! if user_met_rating_threshold?
       
     true
   end

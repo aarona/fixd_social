@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_11_195500) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_12_013023) do
   create_table "activities", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "loggable_id", null: false
@@ -75,6 +75,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_195500) do
     t.index ["user_id"], name: "index_push_events_on_user_id"
   end
 
+  create_table "rating_changes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "rating", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_rating_changes_on_user_id"
+  end
+
   create_table "ratings", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "rater_id", null: false
@@ -103,6 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_195500) do
   add_foreign_key "posts", "users"
   add_foreign_key "pull_request_events", "users"
   add_foreign_key "push_events", "users"
+  add_foreign_key "rating_changes", "users"
   add_foreign_key "ratings", "users"
   add_foreign_key "ratings", "users", column: "rater_id"
 end
