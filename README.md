@@ -91,7 +91,18 @@ For example, if you want to view the third set of `10` posts (which starts at `2
       "posted_at": "2022-10-10T18:37:16.000Z"
     },
     {
-      "id": 329,
+      "id": 327,
+      "type": "CommentNotification",
+      "user_id": 11,
+      "poster": {
+        "id": 1,
+        "name": "Deidre Kshlerin",
+        "average_rating": 3
+      },
+      "posted_at": "2022-10-12T02:59:17.179Z"
+    },
+    {
+      "id": 326,
       "type": "PushEvent",
       "user_id": 11,
       "event_id": 24482576663,
@@ -108,9 +119,9 @@ If any of the parameters sent are invalid (`offset` and `limit` must be integer 
 
 ```json
 {
-    "errors": [
-        "An error occured"
-    ]
+  "errors": [
+    "An error occured"
+  ]
 }
 ```
 

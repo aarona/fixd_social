@@ -29,12 +29,11 @@ RSpec.describe CreateComment do
       it "creates a post on the user's feed about the comment" do
         expect {
           create_comment.save
-        }.to change(Post, :count).by(1)
+        }.to change(CommentNotification, :count).by(1)
 
-        post_about_comment = Post.where(user_id: commenter.id).last
+        comment_notification = CommentNotification.where(user_id: commenter.id).last
   
-        expect(post_about_comment.user.id).to be commenter.id
-        expect(post_about_comment.title).to eq "Commented on a post by #{original_poster.name}" 
+        expect(comment_notification.user.id).to be commenter.id
       end
     end
 

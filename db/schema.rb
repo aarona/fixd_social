@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_12_013023) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_12_021720) do
   create_table "activities", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "loggable_id", null: false
@@ -21,6 +21,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_12_013023) do
     t.index ["loggable_id", "loggable_type"], name: "index_activities_on_loggable_id_and_loggable_type", unique: true
     t.index ["posted_at"], name: "index_activities_on_posted_at"
     t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "comment_notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "poster_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_comment_notifications_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -105,6 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_12_013023) do
   end
 
   add_foreign_key "activities", "users"
+  add_foreign_key "comment_notifications", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "create_events", "users"

@@ -24,7 +24,7 @@ class CreateComment
     
     @comment = Comment.new(comment_params)
 
-    return create_comment_post! if @comment.save
+    return create_comment_notification! if @comment.save
 
     @error_messages = @comment.errors.full_messages
     false
@@ -36,19 +36,15 @@ class CreateComment
     @params.merge({ commented_at: DateTime.now })
   end
 
-  def create_comment_post!
-    CreatePost.new(post_comment_params).save
+  def create_comment_notification!
+    CreateCommentNotification.new(comment_notification_params).save
     true
   end
 
-  # Taking a short cut here. I made the body a required field.
-  # In certain circumstances maybe it shouldn't be like this case.
-  # Decided to use the orgiinal post's URL as the body.
-  def post_comment_params
+  def comment_notification_params
     {
       user_id: @user_id,
-      title: "Commented on a post by #{@post.user.name}",
-      body: "/posts/#{@post.id}"
+      poster_id: @post.user.id
     }    
   end
 end

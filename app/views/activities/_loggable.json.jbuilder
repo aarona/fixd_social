@@ -1,4 +1,6 @@
 case type
+when "CommentNotification"
+  json.partial! 'comment_notifications/comment_notification', post: loggable, as: :post
 when "CreateEvent"
   json.partial! 'create_events/create_event', post: loggable, as: :post
 when "Post"
