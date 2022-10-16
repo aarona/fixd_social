@@ -29,12 +29,10 @@ class CreateGithubEvent < CreateRecord
 
            return create_pull_request_event!
         else
-          @skipped = true
-          return false
+          return skipped!
         end
       else
-        @skipped = true
-        return false
+        return skipped!
       end
   end
 
@@ -42,51 +40,72 @@ class CreateGithubEvent < CreateRecord
     @skipped
   end
 
+  protected
+
+  def set_error_messages!
+    @skipped = true
+    super
+  end
+
   private
 
   def create_create_event!
-    service = CreateCreateEvent.new({
+    service = CreateCreateEvent.new(create_event_params)
+
+    return true if service.save
+
+    set_error_messages!
+  end
+
+  def create_event_params
+    {
       event_id: @event["id"],
       user_id: @user.id,
       repo: @event["repo"]["name"],
       created_at: @event["created_at"]
-    })
-
-    return true if service.save
-
-    @skipped = true
-    set_error_messages!
+    }
   end
   
   def create_pull_request_event!
-    service = CreatePullRequestEvent.new({
+    service = CreatePullRequestEvent.new(pull_request_params)
+
+    return true if service.save
+
+    set_error_messages!
+  end
+
+  def pull_request_params
+    {
       event_id: @event["id"],
       user_id: @user.id,
       number: @event["payload"]["number"],
       repo: @event["repo"]["name"],
       action: @event["payload"]["action"],
       created_at: @event["created_at"]
-    })
+    }
+  end
+  
+  def create_push_event!
+    service = CreatePushEvent.new(push_event_params)
 
     return true if service.save
 
-    @skipped = true
     set_error_messages!
   end
 
-  def create_push_event!
-    service = CreatePushEvent.new({
+  def push_event_params
+    {
       event_id: @event["id"],
       user_id: @user.id,
       commits: @event["payload"]["commits"].length,
       repo: @event["repo"]["name"],
       branch: @event["payload"]["ref"],
       created_at: @event["created_at"]
-    })
+    }
+  end
 
-    return true if service.save
-
+  def skipped!
     @skipped = true
-    set_error_messages!
+    false
   end
 end

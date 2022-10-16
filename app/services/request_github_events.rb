@@ -19,7 +19,7 @@ class RequestGithubEvents
   GITHUB_API_URL = "https://api.github.com"
 
   attr_reader :events
-  attr_reader :imported, :skipped, :errors
+  attr_reader :imported, :skipped, :errors, :api_url
 
   def initialize(user)
     @user = user
@@ -30,9 +30,8 @@ class RequestGithubEvents
   end
 
   def import
-    puts "  GET #{@api_url}"
     request_events
-    process_events
+    process_events { |count| yield count }
   end
   
   private
@@ -43,8 +42,8 @@ class RequestGithubEvents
   
   def process_events
     events = JSON.parse(@response.body)
+    yield events.length
 
-    puts "  Events found: #{events.length}"
     events.each do |event|
       event = CreateGithubEvent.new(@user, event)
 

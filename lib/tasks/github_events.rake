@@ -19,7 +19,11 @@ namespace :github_events do
 
       puts "Importing GitHub events for #{user.github_username} (#{user.name} - #{user.email})..."
       request = RequestGithubEvents.new(user)
-      request.import
+
+      puts "  GET #{request.api_url}"
+      
+      request.import { |count| puts "  Events found: #{count}" }
+
       puts "  Imported #{request.imported} event(s), skipped #{request.skipped} event(s), #{request.errors} error(s)"
     end
   end

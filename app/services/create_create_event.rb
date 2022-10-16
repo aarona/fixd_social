@@ -1,4 +1,4 @@
-class CreateCreateEvent
+class CreateCreateEvent < CreateRecord
   # Valid Parameters are:
   #   :event_id - The unique id for this event on Github
   #   :user_id - The id of the user this event belongs to

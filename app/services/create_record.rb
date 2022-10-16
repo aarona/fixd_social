@@ -24,7 +24,7 @@ class CreateRecord
   protected
 
   def set_error_messages!
-    @error_messages = @record.errors.full_messages
+    @error_messages = @record.errors.full_messages if @record
     false
   end
   
