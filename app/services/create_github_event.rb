@@ -1,7 +1,6 @@
-class CreateGithubEvent
+class CreateGithubEvent < CreateRecord
   attr_reader :event
   attr_reader :skipped
-  attr_reader :error_messages
 
   # This should be a hash object from an events collection
   # from the GitHub public API
@@ -55,9 +54,8 @@ class CreateGithubEvent
 
     return true if service.save
 
-    @error_messages = service.error_messages
     @skipped = true
-    false
+    set_error_messages!
   end
   
   def create_pull_request_event!
@@ -72,9 +70,8 @@ class CreateGithubEvent
 
     return true if service.save
 
-    @error_messages = service.error_messages
     @skipped = true
-    false
+    set_error_messages!
   end
 
   def create_push_event!
@@ -89,8 +86,7 @@ class CreateGithubEvent
 
     return true if service.save
 
-    @error_messages = service.error_messages
     @skipped = true
-    false
+    set_error_messages!
   end
 end

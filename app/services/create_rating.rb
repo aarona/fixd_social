@@ -1,16 +1,12 @@
-class CreateRating
+class CreateRating < CreateRecord
   RATING_THRESHOLD = 4
-
-  attr_reader :error_messages
-  attr_reader :rating
 
   # Valid parameters are:
   #   :user_id - The id of the user being rated
   #   :rater_id - The id of user leaving the rating
   #   :rating - The rating; A integer between 1 and 5 (inclusive)
   def initialize(params)
-    @params = params
-    @error_messages = []
+    super(Rating, params)
   end
   
   def save
@@ -42,17 +38,11 @@ class CreateRating
   end
 
   def create_user_rating!
-    @rating = Rating.new(rating_params)
+    @record = Rating.new(rating_params)
 
-    unless @rating.save
-      @error_messages = @rating.errors.full_messages
-
-      return false
-    end
+    return set_error_messages! unless @record.save
 
     create_rating_notification! if @rating_value >= RATING_THRESHOLD
-
-    true
   end
 
   def rating_params
@@ -64,9 +54,9 @@ class CreateRating
   end
 
   def update_user_rating!
-    @rating = Rating.where(user_id: @user_id, rater_id: @rater_id).first
+    @record = Rating.where(user_id: @user_id, rater_id: @rater_id).first
     @current_average_rating = @user.average_rating
-    @rating.update(rating: @rating_value) if @rating.present?
+    @record.update(rating: @rating_value) if @record.present?
     @user.reload
 
     create_rating_notification! if user_met_rating_threshold?
