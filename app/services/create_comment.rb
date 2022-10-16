@@ -1,14 +1,10 @@
-class CreateComment
-  attr_reader :error_messages
-  attr_reader :comment
-
+class CreateComment < CreateRecord
   # Valid parameters are:
   #   :user_id - The id of the user commenting
   #   :post_id - The id of the post the user is commenting on
   #   :message - The comment the user is making
   def initialize(params)
-    @params = params
-    @error_messages = []
+    super(Comment, params)
   end
 
   def save
@@ -22,12 +18,11 @@ class CreateComment
       return false
     end
     
-    @comment = Comment.new(comment_params)
+    @record = Comment.new(comment_params)
 
-    return create_comment_notification! if @comment.save
+    return create_comment_notification! if @record.save
 
-    @error_messages = @comment.errors.full_messages
-    false
+    set_error_messages!
   end
 
   private
@@ -38,7 +33,6 @@ class CreateComment
 
   def create_comment_notification!
     CreateCommentNotification.new(comment_notification_params).save
-    true
   end
 
   def comment_notification_params

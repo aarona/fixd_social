@@ -12,8 +12,7 @@ class CreateRecord
     
     return true if @record.save
     
-    @error_messages = @record.errors.full_messages
-    false
+    set_error_messages!
   end
 
   def method_missing(m)
@@ -23,5 +22,11 @@ class CreateRecord
   end
 
   protected
+
+  def set_error_messages!
+    @error_messages = @record.errors.full_messages
+    false
+  end
+  
   attr_reader :params, :record
 end
